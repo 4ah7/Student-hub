@@ -1,19 +1,19 @@
 let students = JSON.parse(localStorage.getItem("students")) || [];
 let editIndex = -1;
 
-function render() {
+function render(filteredStudents = students) {
   let list = document.getElementById("list");
   list.innerHTML = "";
 
-  if (students.length === 0) {
-    list.innerHTML = `<li class="list-group-item text-center text-muted">No students added yet</li>`;
+  if (filteredStudents.length === 0) {
+    list.innerHTML = `<li class="list-group-item text-center text-muted">No students found</li>`;
     return;
   }
 
-  students.forEach((s, i) => {
+  filteredStudents.forEach((s, i) => {
     list.innerHTML += `
       <li class="list-group-item d-flex justify-content-between">
-        ${i + 1}. ${s}
+        ${s}
         <div>
           <button class="btn btn-warning btn-sm me-2" onclick="editStudent(${i})">Edit</button>
           <button class="btn btn-danger btn-sm" onclick="removeStudent(${i})">Delete</button>
@@ -54,15 +54,12 @@ function removeStudent(i) {
   render();
 }
 
-/* SEARCH FUNCTION */
-function searchStudent() {
-  let input = document.getElementById("search").value.toLowerCase();
-  let items = document.querySelectorAll("#list li");
+/* FIXED SEARCH */
+document.getElementById("search").addEventListener("input", function () {
+  let input = this.value.toLowerCase();
 
-  items.forEach(item => {
-    let text = item.textContent.toLowerCase();
-    item.style.display = text.includes(input) ? "" : "none";
-  });
-}
+  let filtered = students.filter(s => s.toLowerCase().includes(input));
+  render(filtered);
+});
 
 render();
