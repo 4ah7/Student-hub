@@ -42,7 +42,6 @@ function addStudent() {
     return;
   }
 
-  // Capitalize name
   name = name.charAt(0).toUpperCase() + name.slice(1).toLowerCase();
 
   let newStudent = { name, roll, course };
@@ -77,7 +76,14 @@ function removeStudent(i) {
   render();
 }
 
-// SEARCH
+function clearAll() {
+  if (confirm("Are you sure you want to delete all records?")) {
+    students = [];
+    localStorage.setItem("students", JSON.stringify(students));
+    render();
+  }
+}
+
 document.getElementById("search").addEventListener("input", function () {
   let input = this.value.toLowerCase();
 
