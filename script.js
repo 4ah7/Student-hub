@@ -7,7 +7,7 @@ function render(filteredStudents = students) {
 
   list.innerHTML = "";
 
-  // Safe update count
+  // Update count
   if (countEl) {
     countEl.textContent = students.length;
   }
@@ -33,8 +33,17 @@ function render(filteredStudents = students) {
 function addStudent() {
   let name = document.getElementById("name").value.trim();
 
+  // Capitalize name
+  name = name.charAt(0).toUpperCase() + name.slice(1).toLowerCase();
+
   if (name === "") {
     alert("Please enter a student name");
+    return;
+  }
+
+  // Prevent duplicates
+  if (students.includes(name)) {
+    alert("Student already exists");
     return;
   }
 
@@ -68,7 +77,14 @@ document.getElementById("search").addEventListener("input", function () {
   render(filtered);
 });
 
-// Run AFTER page loads
+// ENTER KEY SUPPORT
+document.getElementById("name").addEventListener("keypress", function(e) {
+  if (e.key === "Enter") {
+    addStudent();
+  }
+});
+
+// Load after page ready
 window.onload = function () {
   render();
 };
