@@ -1,5 +1,6 @@
 let students = JSON.parse(localStorage.getItem("students")) || [];
 let editIndex = -1;
+let selectedIndex = -1;
 
 function render(filteredStudents = students) {
   let list = document.getElementById("list");
@@ -15,21 +16,33 @@ function render(filteredStudents = students) {
   }
 
   filteredStudents.forEach((s, i) => {
+    let isSelected = i === selectedIndex;
+
     list.innerHTML += `
-      <li class="list-group-item">
-        <div class="d-flex justify-content-between">
-          <div>
-            <strong>${s.name}</strong><br>
-            Roll No: ${s.roll} | Course: ${s.course}
-          </div>
-          <div>
-            <button class="btn btn-warning btn-sm me-2" onclick="editStudent(${i})">Edit</button>
-            <button class="btn btn-danger btn-sm" onclick="removeStudent(${i})">Delete</button>
-          </div>
+      <li class="list-group-item d-flex justify-content-between align-items-center"
+          style="cursor:pointer; ${isSelected ? 'background:#e9f2ff;' : ''}"
+          onclick="selectStudent(${i})">
+
+        <div>
+          <strong>${s.name}</strong><br>
+          Roll No: ${s.roll} | Course: ${s.course}
         </div>
+
+        ${isSelected ? `
+          <div>
+            <button class="btn btn-warning btn-sm me-2" onclick="editStudent(event, ${i})">Edit</button>
+            <button class="btn btn-danger btn-sm" onclick="removeStudent(event, ${i})">Delete</button>
+          </div>
+        ` : ``}
+
       </li>
     `;
   });
+}
+
+function selectStudent(i) {
+  selectedIndex = i;
+  render();
 }
 
 function addStudent() {
@@ -62,17 +75,24 @@ function addStudent() {
   render();
 }
 
-function editStudent(i) {
+function editStudent(event, i) {
+  event.stopPropagation();
+
   let s = students[i];
   document.getElementById("name").value = s.name;
   document.getElementById("roll").value = s.roll;
   document.getElementById("course").value = s.course;
+
   editIndex = i;
 }
 
-function removeStudent(i) {
+function removeStudent(event, i) {
+  event.stopPropagation();
+
   students.splice(i, 1);
   localStorage.setItem("students", JSON.stringify(students));
+
+  selectedIndex = -1;
   render();
 }
 
@@ -80,6 +100,7 @@ function clearAll() {
   if (confirm("Are you sure you want to delete all records?")) {
     students = [];
     localStorage.setItem("students", JSON.stringify(students));
+    selectedIndex = -1;
     render();
   }
 }
