@@ -3,10 +3,14 @@ let editIndex = -1;
 
 function render(filteredStudents = students) {
   let list = document.getElementById("list");
+  let countEl = document.getElementById("count");
+
   list.innerHTML = "";
 
-  // Update count
-  document.getElementById("count").textContent = students.length;
+  // Safe update count
+  if (countEl) {
+    countEl.textContent = students.length;
+  }
 
   if (filteredStudents.length === 0) {
     list.innerHTML = `<li class="list-group-item text-center text-muted">No students found</li>`;
@@ -57,11 +61,14 @@ function removeStudent(i) {
   render();
 }
 
-// SEARCH (WORKING VERSION)
+// SEARCH
 document.getElementById("search").addEventListener("input", function () {
   let input = this.value.toLowerCase();
   let filtered = students.filter(s => s.toLowerCase().includes(input));
   render(filtered);
 });
 
-render();
+// Run AFTER page loads
+window.onload = function () {
+  render();
+};
