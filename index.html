@@ -9,18 +9,30 @@
 
 <div class="container mt-5">
 
-  <h1 class="text-center mb-4">🎓 Student Hub</h1>
+  <h1 class="text-center mb-2">🎓 Student Hub</h1>
+  <p class="text-center text-muted mb-4">
+    A simple system to manage student records efficiently
+  </p>
 
   <div class="card p-4 shadow">
+    
     <div class="input-group mb-3">
       <input id="name" class="form-control" placeholder="Enter student name">
-      <button class="btn btn-primary" onclick="addStudent()">Add</button>
+      <button class="btn btn-primary" onclick="addStudent()">Add Student</button>
     </div>
 
+    <!-- SEARCH BAR -->
+    <input id="search" class="form-control mb-3" placeholder="Search student..." onkeyup="searchStudent()">
+
     <ul id="list" class="list-group"></ul>
+
   </div>
 
 </div>
+
+<footer class="text-center mt-5 text-muted">
+  <p>Developed by Rahul | BCA Final Year Project</p>
+</footer>
 
 <script src="script.js"></script>
 
