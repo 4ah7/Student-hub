@@ -1,4 +1,5 @@
 let students = JSON.parse(localStorage.getItem("students")) || [];
+let editIndex = -1;
 
 function render() {
   let list = document.getElementById("list");
@@ -13,7 +14,10 @@ function render() {
     list.innerHTML += `
       <li class="list-group-item d-flex justify-content-between">
         ${i + 1}. ${s}
-        <button class="btn btn-danger btn-sm" onclick="removeStudent(${i})">Delete</button>
+        <div>
+          <button class="btn btn-warning btn-sm me-2" onclick="editStudent(${i})">Edit</button>
+          <button class="btn btn-danger btn-sm" onclick="removeStudent(${i})">Delete</button>
+        </div>
       </li>
     `;
   });
@@ -27,10 +31,21 @@ function addStudent() {
     return;
   }
 
-  students.push(name);
+  if (editIndex === -1) {
+    students.push(name);
+  } else {
+    students[editIndex] = name;
+    editIndex = -1;
+  }
+
   localStorage.setItem("students", JSON.stringify(students));
   document.getElementById("name").value = "";
   render();
+}
+
+function editStudent(i) {
+  document.getElementById("name").value = students[i];
+  editIndex = i;
 }
 
 function removeStudent(i) {
