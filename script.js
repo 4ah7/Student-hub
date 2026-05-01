@@ -5,6 +5,9 @@ function render(filteredStudents = students) {
   let list = document.getElementById("list");
   list.innerHTML = "";
 
+  // Update count
+  document.getElementById("count").textContent = students.length;
+
   if (filteredStudents.length === 0) {
     list.innerHTML = `<li class="list-group-item text-center text-muted">No students found</li>`;
     return;
@@ -54,10 +57,9 @@ function removeStudent(i) {
   render();
 }
 
-/* FIXED SEARCH */
+// SEARCH (WORKING VERSION)
 document.getElementById("search").addEventListener("input", function () {
   let input = this.value.toLowerCase();
-
   let filtered = students.filter(s => s.toLowerCase().includes(input));
   render(filtered);
 });
