@@ -4,10 +4,15 @@ function render() {
   let list = document.getElementById("list");
   list.innerHTML = "";
 
+  if (students.length === 0) {
+    list.innerHTML = `<li class="list-group-item text-center text-muted">No students added yet</li>`;
+    return;
+  }
+
   students.forEach((s, i) => {
     list.innerHTML += `
       <li class="list-group-item d-flex justify-content-between">
-        ${s}
+        ${i + 1}. ${s}
         <button class="btn btn-danger btn-sm" onclick="removeStudent(${i})">Delete</button>
       </li>
     `;
@@ -15,8 +20,12 @@ function render() {
 }
 
 function addStudent() {
-  let name = document.getElementById("name").value;
-  if (name === "") return;
+  let name = document.getElementById("name").value.trim();
+
+  if (name === "") {
+    alert("Please enter a student name");
+    return;
+  }
 
   students.push(name);
   localStorage.setItem("students", JSON.stringify(students));
