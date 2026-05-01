@@ -54,4 +54,15 @@ function removeStudent(i) {
   render();
 }
 
+/* SEARCH FUNCTION */
+function searchStudent() {
+  let input = document.getElementById("search").value.toLowerCase();
+  let items = document.querySelectorAll("#list li");
+
+  items.forEach(item => {
+    let text = item.textContent.toLowerCase();
+    item.style.display = text.includes(input) ? "" : "none";
+  });
+}
+
 render();
