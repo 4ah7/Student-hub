@@ -35,16 +35,12 @@ function addStudent() {
   let roll = document.getElementById("roll").value.trim();
   let course = document.getElementById("course").value.trim();
 
-  if (!name || !roll || !course) {
-    alert("Fill all fields");
-    return;
-  }
+  if (!name || !roll || !course) return alert("Fill all fields");
 
   let data = { name, roll, course };
 
-  if (editIndex === -1) {
-    students.push(data);
-  } else {
+  if (editIndex === -1) students.push(data);
+  else {
     students[editIndex] = data;
     editIndex = -1;
   }
@@ -67,7 +63,7 @@ function editStudent(i) {
 }
 
 function removeStudent(i) {
-  if (confirm("Are you sure you want to delete this student?")) {
+  if (confirm("Delete this student?")) {
     students.splice(i, 1);
     localStorage.setItem("students", JSON.stringify(students));
     render();
@@ -89,13 +85,11 @@ function viewStudent(i) {
 
 document.getElementById("search").addEventListener("input", function () {
   let val = this.value.toLowerCase();
-
   let filtered = students.filter(s =>
     s.name.toLowerCase().includes(val) ||
     s.roll.toLowerCase().includes(val) ||
     s.course.toLowerCase().includes(val)
   );
-
   render(filtered);
 });
 
