@@ -1,16 +1,13 @@
-/* Background */
 body {
   font-family: Arial, sans-serif;
   background: linear-gradient(to right, #1e3c72, #2a5298);
   color: white;
 }
 
-/* Navbar */
 .navbar {
   box-shadow: 0 4px 10px rgba(0,0,0,0.3);
 }
 
-/* Cards */
 .card {
   background: rgba(255,255,255,0.95);
   color: black;
@@ -22,18 +19,12 @@ body {
   transform: scale(1.02);
 }
 
-/* Buttons */
 button {
   transition: 0.2s;
 }
 
 button:hover {
   transform: scale(1.05);
-}
-
-/* List items */
-.list-group-item {
-  transition: 0.2s;
 }
 
 .list-group-item:hover {
