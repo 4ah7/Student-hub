@@ -21,6 +21,7 @@ function render(filtered = students) {
           Roll: ${s.roll} | Course: ${s.course}
         </div>
         <div>
+          <button class="btn btn-info btn-sm me-2" onclick="viewStudent(${i})">View</button>
           <button class="btn btn-warning btn-sm me-2" onclick="editStudent(${i})">Edit</button>
           <button class="btn btn-danger btn-sm" onclick="removeStudent(${i})">Delete</button>
         </div>
@@ -34,12 +35,16 @@ function addStudent() {
   let roll = document.getElementById("roll").value.trim();
   let course = document.getElementById("course").value.trim();
 
-  if (!name || !roll || !course) return alert("Fill all fields");
+  if (!name || !roll || !course) {
+    alert("Fill all fields");
+    return;
+  }
 
   let data = { name, roll, course };
 
-  if (editIndex === -1) students.push(data);
-  else {
+  if (editIndex === -1) {
+    students.push(data);
+  } else {
     students[editIndex] = data;
     editIndex = -1;
   }
@@ -62,9 +67,11 @@ function editStudent(i) {
 }
 
 function removeStudent(i) {
-  students.splice(i, 1);
-  localStorage.setItem("students", JSON.stringify(students));
-  render();
+  if (confirm("Are you sure you want to delete this student?")) {
+    students.splice(i, 1);
+    localStorage.setItem("students", JSON.stringify(students));
+    render();
+  }
 }
 
 function clearAll() {
@@ -75,13 +82,20 @@ function clearAll() {
   }
 }
 
+function viewStudent(i) {
+  localStorage.setItem("viewIndex", i);
+  window.location.href = "view.html";
+}
+
 document.getElementById("search").addEventListener("input", function () {
   let val = this.value.toLowerCase();
+
   let filtered = students.filter(s =>
     s.name.toLowerCase().includes(val) ||
     s.roll.toLowerCase().includes(val) ||
     s.course.toLowerCase().includes(val)
   );
+
   render(filtered);
 });
 
