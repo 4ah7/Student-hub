@@ -16,7 +16,7 @@ body {
 }
 
 .card:hover {
-  transform: scale(1.02);
+  transform: translateY(-5px);
 }
 
 button {
@@ -28,5 +28,9 @@ button:hover {
 }
 
 .list-group-item:hover {
-  background: #f1f5ff;
+  background: #eef2ff;
+}
+
+h1, h2 {
+  font-weight: bold;
 }
